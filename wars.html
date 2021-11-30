@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            width: 100%;
+            height: 600px;
+
+
+            background: url("https://media.giphy.com/media/9bTjZrytydVRK/giphy.gif") center center no-repeat;
+            background-size: cover;
+
+        }
+
+        #box2 {
+            /* align-items: center; */
+            /* justify-content: center;
+            width: 300px; */
+
+            margin-top: 0;
+
+
+            /* margin-left: 40%; */
+            margin-top: 10%;
+        }
+
+        #dis {
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            cursor: pointer;
+            /* margin-top: 10%; */
+            display: flex;
+            color: yellow;
+            width: 400px;
+            margin-left: 36%;
+           
+        }
+
+        #dis>div {
+            border: 1px solid white;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #dis>button {
+            /* margin-bottom: 5%; */
+            /* margin-left: 40%; */
+            background-color: red;
+        }
+
+        #fle {
+
+            height: 300px;
+            margin-top: 0;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+          
+            color: yellow;
+
+        }
+
+        #moc {
+            width: 300px;
+            margin-left: 40%;
+            cursor: pointer;
+        }
+
+        h1 {
+            color: yellow;
+        }
+
+        #last {
+            margin-left: 43%;
+            margin-top: 150px;
+            margin-bottom: 10px;
+        }
+
+        #btn {
+            margin-left: 48%;
+
+        }
+
+        #btn>button {
+            background-color: Transparent;
+            background-repeat: no-repeat;
+            border: 1px solid white;
+            cursor: pointer;
+            overflow: hidden;
+            color: yellow;
+            padding: 8px;
+            font-size: 20px;
+            border-radius: 10px;
+        }
+        #logo {
+            background-color: Transparent;
+            background-repeat: no-repeat;
+            width: 10%;
+           margin-left: 45%;
+           margin-top: 150px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <img src="https://logos-download.com/wp-content/uploads/2016/09/Star_Wars_logo-1.png" alt="star war" id="logo">
+
+    <div id="fle">
+        
+        <input type="text" oninput="debounce(sea, 1000)" placeholder="Search Character" id="char">
+        <div id="moc"></div>
+        <div id="ge"></div>
+    </div>
+    <div id="last"></div>
+    <div id="dis"></div>
+    <div id="btn"></div>
+
+    <!-- <audio>
+   
+    src="https://archive.org/details/13BinarySunsetAlternate/01+20th+Century+Fox+Fanfare.mp3" autoplay loop
+  </audio> -->
+
+</body>
+
+</html>
+<script>
+    var timerId;
+    var nam = document.getElementById("moc");
+    var logo = document.getElementById("logo");
+    var gende = document.getElementById("ge");
+    var bo = document.getElementById("fle");
+    async function wars(da) {
+
+        let res = await fetch(`https://swapi.dev/api/people/?search=${da}`);
+        let data = await res.json();
+        console.log(data);
+        return data.results;
+
+    }
+    async function sea() {
+        let da = document.getElementById("char").value;
+        let div = await wars(da);
+        appendingName(div);
+        console.log(div);
+    }
+
+    function appendingName(m) {
+        m.forEach(({ name, birth_year, gender, height, eye_color, mass, hair_color }) => {
+            let p = document.createElement("p");
+            p.innerText = name;
+            let birth = document.createElement("p");
+            birth.innerText = birth_year;
+
+            // let dip = document.createElement("div")
+            let gen = document.createElement("p");
+            gen.innerHTML = gender;
+
+            p.onclick = () => dis(name, birth_year, gender, height, eye_color, mass, hair_color);
+            p.onmouseover = () => chek(p)
+            p.onmouseout = () => chek1(p)
+            console.log(name, birth_year);
+            // dip.append(gen);
+            nam.append(p, birth, gen);
+            //  gende.append(dip);
+        });
+    }
+
+    function debounce(func, delay) {
+        let da = document.getElementById("char").value;
+
+        if (da.length < 3) {
+
+            let disc = document.getElementById("dis");
+            disc.innerHTML = null;
+            nam.innerHTML = null;
+            return false;
+        }
+        if (timerId) {
+            clearTimeout(timerId);
+        }
+        timerId = setTimeout(() => {
+            func();
+        }, delay);
+    }
+    function dis(name, birth_year, gender, height, eye_color, mass, hair_color) {
+        let disc = document.getElementById("dis");
+        let first = document.getElementById("last");
+        let last = document.getElementById("btn");
+        let person = document.createElement("div");
+        let antomy = document.createElement("div");
+
+
+        let nam = document.createElement("h1");
+        nam.innerHTML = name;
+        console.log(nam);
+
+        let detail = document.createElement("h2")
+        detail.innerHTML = "Personal";
+
+        let an = document.createElement("h2")
+        an.innerHTML = "Antomy";
+
+        let age = document.createElement("p")
+        age.innerHTML = "Birth : " + birth_year;
+
+        let sex = document.createElement("p")
+        sex.innerHTML = "Gender : " + gender;
+
+        let hei = document.createElement("p")
+        hei.innerHTML = "Height : " + height;
+
+        let eye = document.createElement("p")
+        eye.innerHTML = "Eye color : " + eye_color;
+
+        let mas = document.createElement("p")
+        mas.innerHTML = "Mass : " + mass;
+
+        let hair = document.createElement("p")
+        hair.innerHTML = "Hair : " + hair_color;
+
+        let bot = document.createElement("button");
+        bot.innerText = "Back";
+        bot.onclick = () => btn();
+
+        disc.onmouseover = () => two(disc)
+        disc.onmouseout = () => chek1(disc)
+
+        bot.onmouseover = () => two(bot)
+        bot.onmouseout = () => chek1(bot)
+
+        person.append(detail, age, sex, hei);
+        antomy.append(an, eye, mas, hair)
+        disc.append(person, antomy,);
+        first.append(nam)
+        last.append(bot)
+        //  window.location.href="details.html";
+
+        bo.style.display = "none";
+        logo.style.display = "none";
+        // bo.innerHTML = null;
+
+    }
+
+
+    function btn() {
+        console.log("yes");
+        bo.style.display = "block";
+        logo.style.display = "block";
+        let nam = document.getElementById("moc");
+        let disc = document.getElementById("dis");
+
+        let btn = document.getElementById("btn");
+
+        let las = document.getElementById("last");
+        //  disc.style.visibility = "hidden";
+
+        //    nam.value = "";
+        let da = document.getElementById("char");
+        da.value = "";
+        nam.innerHTML = null;
+        disc.innerHTML = null;
+        btn.innerHTML = null;
+        las.innerHTML = null;
+        console.log(nam, disc);
+    }
+    function chek(p) {
+        console.log("yes");
+        p.style.color = "#FFC400";
+        // disc.style.color = "#E64A19";
+    }
+    function chek1(p) {
+        console.log("yes");
+        p.style.color = "yellow";
+        disc.style.color = "yellow";
+    }
+
+    function two(disc) {
+        console.log("yes");
+        disc.style.color = "white";
+        bot.style.color = "white"
+    }
+</script>
